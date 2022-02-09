@@ -1,4 +1,6 @@
-export type Event = {
+import { Event } from '../../entities/event';
+
+export type SaveEventParams = {
   id: number;
   action: string;
   issue: {
@@ -14,3 +16,7 @@ export type Event = {
     login: string;
   };
 };
+
+export interface SaveEventRepository {
+  save(params: SaveEventParams): Promise<Event>;
+}
