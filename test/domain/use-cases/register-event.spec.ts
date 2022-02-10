@@ -17,7 +17,6 @@ describe('RegisterEvent', () => {
 
   beforeEach(() => {
     params = {
-      id: 1,
       action: 'any_action',
       issue: {
         url: 'any_url',
@@ -31,6 +30,7 @@ describe('RegisterEvent', () => {
         id: 1,
         login: 'any_login',
       },
+      externalId: 1,
     };
 
     sut = new RegisterEvent(saveEventRepository);

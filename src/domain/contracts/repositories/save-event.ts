@@ -1,7 +1,6 @@
 import { Event } from '../../entities/event';
 
-export type SaveEventParams = {
-  id: number;
+export type SaveEventData = {
   action: string;
   issue: {
     number: number;
@@ -15,8 +14,9 @@ export type SaveEventParams = {
     id: number;
     login: string;
   };
+  externalId: number;
 };
 
 export interface SaveEventRepository {
-  save(params: SaveEventParams): Promise<Event>;
+  save(data: SaveEventData): Promise<Event>;
 }

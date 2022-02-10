@@ -4,7 +4,6 @@ import { RegisterEvent } from '@/domain/use-cases/register-event';
 import { HttpResponse } from '../contracts/http';
 
 export type HttpRequest = {
-  id: number;
   action: string;
   issue: {
     number: number;
@@ -18,6 +17,7 @@ export type HttpRequest = {
     id: number;
     login: string;
   };
+  externalId: number;
 };
 
 export class RegisterEventController {

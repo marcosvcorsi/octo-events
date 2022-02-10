@@ -20,7 +20,6 @@ describe('RegisterEventController', () => {
 
   beforeEach(() => {
     httpRequest = {
-      id: 1,
       action: 'any_action',
       issue: {
         url: 'any_url',
@@ -34,10 +33,12 @@ describe('RegisterEventController', () => {
         id: 1,
         login: 'any_login',
       },
+      externalId: 1,
     };
 
     event = {
       ...httpRequest,
+      id: 'any_id',
     };
 
     registerEvent.execute.mockResolvedValue(event);

@@ -1,5 +1,5 @@
 export type Event = {
-  id: number;
+  id: string;
   action: string;
   issue: {
     number: number;
@@ -13,4 +13,5 @@ export type Event = {
     id: number;
     login: string;
   };
+  externalId: number;
 };

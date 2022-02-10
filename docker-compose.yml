@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: octo-events

@@ -2,7 +2,6 @@ import { SaveEventRepository } from '../contracts/repositories/save-event';
 import { Event } from '../entities/event';
 
 export type RegisterEventParams = {
-  id: number;
   action: string;
   issue: {
     number: number;
@@ -16,6 +15,7 @@ export type RegisterEventParams = {
     id: number;
     login: string;
   };
+  externalId: number;
 };
 
 export class RegisterEvent {
