@@ -42,4 +42,10 @@ describe('RegisterEvent', () => {
     expect(saveEventRepository.save).toHaveBeenCalledWith(params);
     expect(saveEventRepository.save).toHaveBeenCalledTimes(1);
   });
+
+  it('should throw if SaveEventRepository save throws', async () => {
+    saveEventRepository.save.mockRejectedValue(new Error('any_error'));
+
+    await expect(sut.execute(params)).rejects.toThrow();
+  });
 });

@@ -11,7 +11,6 @@ module.exports = {
     '!<rootDir>/src/**/index.ts',
   ],
   coverageDirectory: 'coverage',
-  coverageProvider: "v8",
   coverageThreshold: {
     global: {
       branches: 80,
