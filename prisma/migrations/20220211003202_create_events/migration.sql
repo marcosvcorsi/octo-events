@@ -2,7 +2,7 @@
 CREATE TABLE "events" (
     "id" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updated_at" TIMESTAMP(3) NOT NULL,
+    "updated_at" TIMESTAMP(3),
     "action" TEXT NOT NULL,
     "issue" JSONB NOT NULL,
     "repository" JSONB NOT NULL,

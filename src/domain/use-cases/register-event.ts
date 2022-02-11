@@ -1,5 +1,5 @@
-import { SaveEventRepository } from '../contracts/repositories/save-event';
-import { Event } from '../entities/event';
+import { SaveEventRepository } from '@/domain/contracts/repositories/save-event';
+import { Event } from '@/domain/entities/event';
 
 export type RegisterEventParams = {
   action: string;
