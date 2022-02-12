@@ -57,7 +57,7 @@ describe('RegisterEventController', () => {
     const response = await registerEventController.handle(httpRequest);
 
     expect(response).toEqual({
-      statusCode: 201,
+      statusCode: 200,
       body: event,
     });
   });

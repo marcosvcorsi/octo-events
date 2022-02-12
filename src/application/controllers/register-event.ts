@@ -1,6 +1,9 @@
+/* eslint-disable brace-style */
+/* eslint-disable indent */
 import { Event } from '@/domain/entities/event';
 import { RegisterEvent } from '@/domain/use-cases/register-event';
 
+import { Controller } from '.';
 import { HttpResponse } from '../contracts/http';
 
 export type HttpRequest = {
@@ -20,7 +23,9 @@ export type HttpRequest = {
   externalId: number;
 };
 
-export class RegisterEventController {
+export class RegisterEventController
+  implements Controller<HttpRequest, HttpResponse<Event | String>>
+{
   constructor(private readonly registerEvent: RegisterEvent) {}
 
   async handle(request: HttpRequest): Promise<HttpResponse<Event | String>> {
@@ -28,7 +33,7 @@ export class RegisterEventController {
       const event = await this.registerEvent.execute(request);
 
       return {
-        statusCode: 201,
+        statusCode: 200,
         body: event,
       };
     } catch (error) {
