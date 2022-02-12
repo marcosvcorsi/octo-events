@@ -7,6 +7,7 @@ import { Controller } from '.';
 import { HttpResponse } from '../contracts/http';
 
 export type HttpRequest = {
+  id: number;
   action: string;
   issue: {
     number: number;
@@ -20,7 +21,6 @@ export type HttpRequest = {
     id: number;
     login: string;
   };
-  externalId: number;
 };
 
 export class RegisterEventController
@@ -30,7 +30,13 @@ export class RegisterEventController
 
   async handle(request: HttpRequest): Promise<HttpResponse<Event | String>> {
     try {
-      const event = await this.registerEvent.execute(request);
+      const event = await this.registerEvent.execute({
+        action: request.action,
+        issue: request.issue,
+        sender: request.sender,
+        repository: request.repository,
+        externalId: request.id,
+      });
 
       return {
         statusCode: 200,

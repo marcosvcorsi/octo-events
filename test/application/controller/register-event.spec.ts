@@ -33,12 +33,13 @@ describe('RegisterEventController', () => {
         id: 1,
         login: 'any_login',
       },
-      externalId: 1,
+      id: 1,
     };
 
     event = {
       ...httpRequest,
       id: 'any_id',
+      externalId: 1,
     };
 
     registerEvent.execute.mockResolvedValue(event);
@@ -49,7 +50,13 @@ describe('RegisterEventController', () => {
   it('should call RegisterEvent execute with correct params', async () => {
     await registerEventController.handle(httpRequest);
 
-    expect(registerEvent.execute).toHaveBeenCalledWith(httpRequest);
+    expect(registerEvent.execute).toHaveBeenCalledWith({
+      action: httpRequest.action,
+      issue: httpRequest.issue,
+      sender: httpRequest.sender,
+      repository: httpRequest.repository,
+      externalId: httpRequest.id,
+    });
     expect(registerEvent.execute).toHaveBeenCalledTimes(1);
   });
 

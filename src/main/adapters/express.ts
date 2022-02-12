@@ -4,18 +4,26 @@ import { RequestHandler } from 'express';
 
 import { Controller } from '@/application/controllers';
 
+import { logger } from '../utils/logger';
+
 type ExpressRouterAdapter = (controller: Controller) => RequestHandler;
 
 export const adaptExpressRouter: ExpressRouterAdapter =
   controller => async (req, res) => {
     const { body } = req;
 
-    const { statusCode, data } = await controller.handle({
+    const { statusCode, body: data } = await controller.handle({
       ...body,
     });
 
     if (statusCode >= 400) {
-      return res.status(statusCode).json({ error: data.message });
+      if (statusCode < 500) {
+        logger.warn({ error: data });
+      } else {
+        logger.error({ error: data });
+      }
+
+      return res.status(statusCode).json({ error: data });
     }
 
     return res.status(statusCode).json(data);
