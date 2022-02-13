@@ -30,8 +30,6 @@ describe('Issues Routes', () => {
           issue: {
             number: issueNumber,
             url: 'any_url',
-            code: issueNumber,
-            code_str: String(issueNumber),
           },
           repository: {
             fullName: 'any_full_name',
