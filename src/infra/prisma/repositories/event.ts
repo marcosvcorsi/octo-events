@@ -32,7 +32,7 @@ export class EventRepository
       where: {
         issue: {
           path: ['number'],
-          equals: issueNumber,
+          equals: Number(issueNumber),
         },
       },
     });

@@ -10,21 +10,22 @@ type ExpressRouterAdapter = (controller: Controller) => RequestHandler;
 
 export const adaptExpressRouter: ExpressRouterAdapter =
   controller => async (req, res) => {
-    const { body } = req;
+    const { body, params } = req;
 
-    const { statusCode, body: data } = await controller.handle({
+    const response = await controller.handle({
+      ...params,
       ...body,
     });
 
-    if (statusCode >= 400) {
-      if (statusCode < 500) {
-        logger.warn({ error: data });
+    if (response.statusCode >= 400) {
+      if (response.statusCode < 500) {
+        logger.warn({ error: response.body });
       } else {
-        logger.error({ error: data });
+        logger.error({ error: response.body });
       }
 
-      return res.status(statusCode).json({ error: data });
+      return res.status(response.statusCode).json({ error: response.body });
     }
 
-    return res.status(statusCode).json(data);
+    return res.status(response.statusCode).json(response.body);
   };
