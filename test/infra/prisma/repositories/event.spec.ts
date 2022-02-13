@@ -3,19 +3,19 @@ import { mockDeep, DeepMockProxy } from 'jest-mock-extended';
 
 import { SaveEventData } from '@/domain/contracts/repositories/save-event';
 import { Event } from '@/domain/entities/event';
-import { EventRepository } from '@/infra/prisma/repositories/event';
+import { PrismaEventRepository } from '@/infra/prisma/repositories/event';
 import { PrismaClient } from '@prisma/client';
 
 jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn(),
 }));
 
-describe('EventRepository', () => {
+describe('PrismaEventRepository', () => {
   let event: Event;
 
   let fakePrismaClient: DeepMockProxy<PrismaClient>;
 
-  let eventRepository: EventRepository;
+  let prismaEventRepository: PrismaEventRepository;
 
   beforeAll(() => {
     event = {
@@ -42,7 +42,7 @@ describe('EventRepository', () => {
   });
 
   beforeEach(() => {
-    eventRepository = new EventRepository();
+    prismaEventRepository = new PrismaEventRepository();
   });
 
   describe('save', () => {
@@ -77,7 +77,7 @@ describe('EventRepository', () => {
     });
 
     it('should call PrismaClient event upsert with correct values', async () => {
-      await eventRepository.save(data);
+      await prismaEventRepository.save(data);
 
       expect(fakePrismaClient.event.upsert).toHaveBeenCalledWith({
         create: {
@@ -105,11 +105,11 @@ describe('EventRepository', () => {
         new Error('any_error'),
       );
 
-      await expect(eventRepository.save(data)).rejects.toThrow();
+      await expect(prismaEventRepository.save(data)).rejects.toThrow();
     });
 
     it('should return a mapped event on success', async () => {
-      const result = await eventRepository.save(data);
+      const result = await prismaEventRepository.save(data);
 
       expect(result).toMatchObject(event);
     });
@@ -132,7 +132,7 @@ describe('EventRepository', () => {
     });
 
     it('should call PrismaClient event findMany with correct values', async () => {
-      await eventRepository.findByIssue(issueNumber);
+      await prismaEventRepository.findByIssue(issueNumber);
 
       expect(fakePrismaClient.event.findMany).toHaveBeenCalledWith({
         where: {
@@ -150,11 +150,13 @@ describe('EventRepository', () => {
         new Error('any_error'),
       );
 
-      await expect(eventRepository.findByIssue(issueNumber)).rejects.toThrow();
+      await expect(
+        prismaEventRepository.findByIssue(issueNumber),
+      ).rejects.toThrow();
     });
 
     it('should return a mapped events on success', async () => {
-      const results = await eventRepository.findByIssue(issueNumber);
+      const results = await prismaEventRepository.findByIssue(issueNumber);
 
       expect(results).toEqual([expect.objectContaining(event)]);
     });

@@ -4,9 +4,9 @@ import { FindIssueEventsController } from '@/application/controllers/find-issue-
 import { RegisterEventController } from '@/application/controllers/register-event';
 import { FindIssueEvents } from '@/domain/use-cases/find-issue-events';
 import { RegisterEvent } from '@/domain/use-cases/register-event';
-import { EventRepository } from '@/infra/prisma/repositories/event';
+import { PrismaEventRepository } from '@/infra/prisma/repositories/event';
 
-container.registerSingleton('EventRepository', EventRepository);
+container.registerSingleton('EventRepository', PrismaEventRepository);
 
 container.register('RegisterEvent', {
   useFactory: () => new RegisterEvent(container.resolve('EventRepository')),

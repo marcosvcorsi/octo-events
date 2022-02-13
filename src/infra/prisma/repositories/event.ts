@@ -6,7 +6,7 @@ import {
 import { Event } from '@/domain/entities/event';
 import { PrismaClient, Event as PrismaEvent } from '@prisma/client';
 
-export class EventRepository
+export class PrismaEventRepository
   implements SaveEventRepository, FindEventsByIssueRepository
 {
   private prismaClient: PrismaClient;
