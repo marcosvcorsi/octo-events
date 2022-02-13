@@ -1,15 +1,43 @@
+/* eslint-disable indent */
+/* eslint-disable brace-style */
+import { FindEventsByIssueRepository } from '@/domain/contracts/repositories/find-events-by-issue';
 import {
   SaveEventData,
   SaveEventRepository,
 } from '@/domain/contracts/repositories/save-event';
 import { Event } from '@/domain/entities/event';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Event as PrismaEvent } from '@prisma/client';
 
-export class EventRepository implements SaveEventRepository {
+export class EventRepository
+  implements SaveEventRepository, FindEventsByIssueRepository
+{
   private prismaClient: PrismaClient;
 
   constructor() {
     this.prismaClient = new PrismaClient();
+  }
+
+  private mapPrismaEventToEvent(prismaEvent: PrismaEvent): Event {
+    return {
+      ...prismaEvent,
+      issue: prismaEvent.issue as Event['issue'],
+      repository: prismaEvent.repository as Event['repository'],
+      sender: prismaEvent.sender as Event['sender'],
+      externalId: Number(prismaEvent.externalId),
+    };
+  }
+
+  async findByIssue(issueNumber: number): Promise<Event[]> {
+    const events = await this.prismaClient.event.findMany({
+      where: {
+        issue: {
+          path: ['number'],
+          equals: issueNumber,
+        },
+      },
+    });
+
+    return events.map(this.mapPrismaEventToEvent);
   }
 
   async save(data: SaveEventData): Promise<Event> {
@@ -34,12 +62,6 @@ export class EventRepository implements SaveEventRepository {
       },
     });
 
-    return {
-      ...event,
-      issue: event.issue as Event['issue'],
-      repository: event.repository as Event['repository'],
-      sender: event.sender as Event['sender'],
-      externalId: Number(event.externalId),
-    };
+    return this.mapPrismaEventToEvent(event);
   }
 }

@@ -12,7 +12,7 @@ jest.mock('@prisma/client', () => ({
 
 describe('EventRepository', () => {
   let event: Event;
-  let data: SaveEventData;
+
   let fakePrismaClient: DeepMockProxy<PrismaClient>;
 
   let eventRepository: EventRepository;
@@ -49,59 +49,67 @@ describe('EventRepository', () => {
   });
 
   beforeEach(() => {
-    data = {
-      action: 'opened',
-      issue: {
-        number: 1,
-        url: 'any_url',
-      },
-      repository: {
-        fullName: 'any_full_name',
-        id: 1,
-      },
-      sender: {
-        id: 1,
-        login: 'any_login',
-      },
-      externalId: 1,
-    };
-
     eventRepository = new EventRepository();
   });
 
-  it('should call PrismaClient event upsert with correct values', async () => {
-    await eventRepository.save(data);
+  describe('save', () => {
+    let data: SaveEventData;
 
-    expect(fakePrismaClient.event.upsert).toHaveBeenCalledWith({
-      create: {
-        action: data.action,
-        issue: data.issue,
-        repository: data.repository,
-        sender: data.sender,
-        externalId: data.externalId,
-      },
-      update: {
-        action: data.action,
-        issue: data.issue,
-        repository: data.repository,
-        sender: data.sender,
-      },
-      where: {
-        externalId: data.externalId,
-      },
+    beforeEach(() => {
+      data = {
+        action: 'opened',
+        issue: {
+          number: 1,
+          url: 'any_url',
+        },
+        repository: {
+          fullName: 'any_full_name',
+          id: 1,
+        },
+        sender: {
+          id: 1,
+          login: 'any_login',
+        },
+        externalId: 1,
+      };
     });
-    expect(fakePrismaClient.event.upsert).toHaveBeenCalledTimes(1);
-  });
 
-  it('should throw if PrismaClient event upsert throws', async () => {
-    fakePrismaClient.event.upsert.mockRejectedValueOnce(new Error('any_error'));
+    it('should call PrismaClient event upsert with correct values', async () => {
+      await eventRepository.save(data);
 
-    await expect(eventRepository.save(data)).rejects.toThrow();
-  });
+      expect(fakePrismaClient.event.upsert).toHaveBeenCalledWith({
+        create: {
+          action: data.action,
+          issue: data.issue,
+          repository: data.repository,
+          sender: data.sender,
+          externalId: data.externalId,
+        },
+        update: {
+          action: data.action,
+          issue: data.issue,
+          repository: data.repository,
+          sender: data.sender,
+        },
+        where: {
+          externalId: data.externalId,
+        },
+      });
+      expect(fakePrismaClient.event.upsert).toHaveBeenCalledTimes(1);
+    });
 
-  it('should return a mapped event on success', async () => {
-    const result = await eventRepository.save(data);
+    it('should throw if PrismaClient event upsert throws', async () => {
+      fakePrismaClient.event.upsert.mockRejectedValueOnce(
+        new Error('any_error'),
+      );
 
-    expect(result).toMatchObject(event);
+      await expect(eventRepository.save(data)).rejects.toThrow();
+    });
+
+    it('should return a mapped event on success', async () => {
+      const result = await eventRepository.save(data);
+
+      expect(result).toMatchObject(event);
+    });
   });
 });
