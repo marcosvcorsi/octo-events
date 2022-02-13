@@ -7,7 +7,7 @@
     "clean": "npx rimraf dist",
     "build": "npm run clean && npx tsc -p tsconfig.build.json",
     "start": "node dist/main/server.js",
-    "dev": "npx tsnd --transpile-only --exit-child --ignore-watch node_modules src/main/server.ts | pino-pretty -l -c -i pid,hostname",
+    "dev": "npx tsnd --inspect --transpile-only --exit-child --ignore-watch node_modules src/main/server.ts | pino-pretty -l -c -i pid,hostname",
     "lint": "npx eslint ./**/*.ts",
     "lint:fix": "npm run lint -- --fix",
     "test": "npx jest --passWithNoTests --no-cache --runInBand",
