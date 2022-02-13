@@ -39,13 +39,6 @@ describe('EventRepository', () => {
     fakePrismaClient = mockDeep();
 
     mocked(PrismaClient).mockImplementation(() => fakePrismaClient);
-
-    fakePrismaClient.event.upsert.mockResolvedValue({
-      ...event,
-      externalId: 1 as any,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
   });
 
   beforeEach(() => {
@@ -54,6 +47,15 @@ describe('EventRepository', () => {
 
   describe('save', () => {
     let data: SaveEventData;
+
+    beforeAll(() => {
+      fakePrismaClient.event.upsert.mockResolvedValue({
+        ...event,
+        externalId: 1 as any,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    });
 
     beforeEach(() => {
       data = {
@@ -110,6 +112,51 @@ describe('EventRepository', () => {
       const result = await eventRepository.save(data);
 
       expect(result).toMatchObject(event);
+    });
+  });
+
+  describe('findByIssue', () => {
+    let issueNumber: number;
+
+    beforeAll(() => {
+      issueNumber = 1;
+
+      fakePrismaClient.event.findMany.mockResolvedValue([
+        {
+          ...event,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          externalId: 1 as any,
+        },
+      ]);
+    });
+
+    it('should call PrismaClient event findMany with correct values', async () => {
+      await eventRepository.findByIssue(issueNumber);
+
+      expect(fakePrismaClient.event.findMany).toHaveBeenCalledWith({
+        where: {
+          issue: {
+            path: ['number'],
+            equals: issueNumber,
+          },
+        },
+      });
+      expect(fakePrismaClient.event.findMany).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw if PrismaClient event findMany throws', async () => {
+      fakePrismaClient.event.findMany.mockRejectedValueOnce(
+        new Error('any_error'),
+      );
+
+      await expect(eventRepository.findByIssue(issueNumber)).rejects.toThrow();
+    });
+
+    it('should return a mapped events on success', async () => {
+      const results = await eventRepository.findByIssue(issueNumber);
+
+      expect(results).toEqual([expect.objectContaining(event)]);
     });
   });
 });
