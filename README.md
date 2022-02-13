@@ -22,11 +22,7 @@ The test consists in building 2 endpoints:
    { "action": "closed", created_at: "...",}
    ]Github Integration Instructions
 
--
--
-- The repo you will integrate is: "improving/jaya-test"
-  Use Basic Authentication with login: "xxx" and password: "xxx"
-  Tip: You can use ngrok (​ https://ngrok.com/​ ) to install / debug the webhook calls, it generates a public
+- Tip: You can use ngrok (​ https://ngrok.com/​ ) to install / debug the webhook calls, it generates a public
   url that will route to your local host:
 
 Local

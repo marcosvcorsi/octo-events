@@ -15,6 +15,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/health', (_, res) => res.send('ok'));
+
 app.use('/api', routes);
 
 async function bootstrap() {
