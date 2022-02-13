@@ -18,12 +18,10 @@ container.register('FindIssueEvents', {
 
 container.register('RegisterEventController', {
   useFactory: () =>
-    // eslint-disable-next-line implicit-arrow-linebreak
     new RegisterEventController(container.resolve('RegisterEvent')),
 });
 
 container.register('FindIssueEventsController', {
   useFactory: () =>
-    // eslint-disable-next-line implicit-arrow-linebreak
     new FindIssueEventsController(container.resolve('FindIssueEvents')),
 });

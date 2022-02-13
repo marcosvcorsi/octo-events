@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { ArgsType, Field, ID, InputType, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()

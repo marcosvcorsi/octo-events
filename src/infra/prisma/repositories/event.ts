@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-/* eslint-disable brace-style */
 import { FindEventsByIssueRepository } from '@/domain/contracts/repositories/find-events-by-issue';
 import {
   SaveEventData,

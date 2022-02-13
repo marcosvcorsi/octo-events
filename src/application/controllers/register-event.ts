@@ -1,5 +1,3 @@
-/* eslint-disable brace-style */
-/* eslint-disable indent */
 import { Event } from '@/domain/entities/event';
 import { RegisterEvent } from '@/domain/use-cases/register-event';
 

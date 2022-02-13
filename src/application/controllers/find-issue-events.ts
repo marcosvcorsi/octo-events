@@ -1,5 +1,3 @@
-/* eslint-disable brace-style */
-/* eslint-disable indent */
 import { Event } from '@/domain/entities/event';
 import { FindIssueEvents } from '@/domain/use-cases/find-issue-events';
 
