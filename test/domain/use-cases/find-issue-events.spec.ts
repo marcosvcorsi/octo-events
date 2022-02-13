@@ -44,6 +44,7 @@ describe('FindIssueEvents', () => {
     await findIssueEvents.execute({ issueNumber });
 
     expect(eventRepository.findByIssue).toHaveBeenCalledWith(issueNumber);
+    expect(eventRepository.findByIssue).toHaveBeenCalledTimes(1);
   });
 
   it('should throw if FindEventsByIssue repository throws', async () => {
