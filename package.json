@@ -1,11 +1,12 @@
 {
   "name": "octo-events",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "server.js",
   "scripts": {
     "clean": "npx rimraf dist",
     "build": "npm run clean && npx tsc -p tsconfig.build.json",
+    "prestart": "npx prisma migrate deploy",
     "start": "node dist/main/server.js",
     "dev": "npx tsnd --inspect --transpile-only --exit-child --ignore-watch node_modules src/main/server.ts | pino-pretty -l -c -i pid,hostname",
     "lint": "npx eslint ./**/*.ts",
