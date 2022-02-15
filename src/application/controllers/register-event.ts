@@ -30,9 +30,18 @@ export class RegisterEventController
     try {
       const event = await this.registerEvent.execute({
         action: request.action,
-        issue: request.issue,
-        sender: request.sender,
-        repository: request.repository,
+        issue: {
+          number: request.issue.number,
+          url: request.issue.url,
+        },
+        sender: {
+          id: request.sender.id,
+          login: request.sender.login,
+        },
+        repository: {
+          id: request.repository.id,
+          fullName: request.repository.fullName,
+        },
         externalId: request.id,
       });
 
