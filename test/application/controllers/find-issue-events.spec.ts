@@ -35,7 +35,6 @@ describe('FindIssueEventsController', () => {
         id: 1,
         login: 'any_login',
       },
-      externalId: 1,
     };
 
     findIssueEvents = mock();

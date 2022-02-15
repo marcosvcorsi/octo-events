@@ -29,7 +29,6 @@ describe('FindIssueEvents', () => {
         id: 1,
         login: 'any_login',
       },
-      externalId: 1,
     };
 
     eventRepository = mock();

@@ -13,5 +13,4 @@ export type Event = {
     id: number;
     login: string;
   };
-  externalId: number;
 };

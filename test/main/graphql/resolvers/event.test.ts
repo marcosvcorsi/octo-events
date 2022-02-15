@@ -23,7 +23,6 @@ describe('Events Resolver', () => {
   describe('POST /graphql mutation saveEvent', () => {
     it('should resolve and register event', async () => {
       const params = {
-        id: 1,
         action: 'opened',
         issue: {
           url: 'any_url',
@@ -44,7 +43,6 @@ describe('Events Resolver', () => {
         .send({
           query: `mutation {
              saveEvent(input: {
-              id: ${params.id},
               action: "${params.action}",
               issue: {
                 url: "${params.issue.url}",
@@ -73,16 +71,16 @@ describe('Events Resolver', () => {
                 id
                 login
               }
-              externalId
             }
           }`,
         });
+
+      console.log(response.body);
 
       expect(response.status).toBe(200);
       expect(response.body.data.saveEvent).toEqual({
         ...params,
         id: expect.any(String),
-        externalId: params.id,
       });
     });
   });
@@ -106,7 +104,6 @@ describe('Events Resolver', () => {
             id: 1,
             login: 'any_login',
           },
-          externalId: 1 as any,
         },
       });
 
@@ -129,7 +126,6 @@ describe('Events Resolver', () => {
                 id
                 login
               }
-              externalId
             }
           }`,
         });
@@ -138,7 +134,6 @@ describe('Events Resolver', () => {
       expect(response.body.data.events).toEqual([
         {
           ...event,
-          externalId: Number(event.externalId),
           createdAt: undefined,
           updatedAt: undefined,
         },

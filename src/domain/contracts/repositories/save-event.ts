@@ -14,7 +14,6 @@ export type SaveEventData = {
     id: number;
     login: string;
   };
-  externalId: number;
 };
 
 export interface SaveEventRepository {

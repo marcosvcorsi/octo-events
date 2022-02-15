@@ -15,7 +15,6 @@ export type RegisterEventParams = {
     id: number;
     login: string;
   };
-  externalId: number;
 };
 
 export class RegisterEvent {

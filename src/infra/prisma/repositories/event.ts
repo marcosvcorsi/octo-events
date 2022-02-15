@@ -21,7 +21,6 @@ export class PrismaEventRepository
       issue: prismaEvent.issue as Event['issue'],
       repository: prismaEvent.repository as Event['repository'],
       sender: prismaEvent.sender as Event['sender'],
-      externalId: Number(prismaEvent.externalId),
     };
   }
 
@@ -39,24 +38,14 @@ export class PrismaEventRepository
   }
 
   async save(data: SaveEventData): Promise<Event> {
-    const { action, issue, repository, sender, externalId } = data;
+    const { action, issue, repository, sender } = data;
 
-    const event = await this.prismaClient.event.upsert({
-      create: {
+    const event = await this.prismaClient.event.create({
+      data: {
         action,
         issue,
         repository,
         sender,
-        externalId,
-      },
-      update: {
-        action,
-        issue,
-        repository,
-        sender,
-      },
-      where: {
-        externalId,
       },
     });
 

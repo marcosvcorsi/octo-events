@@ -5,7 +5,6 @@ import { Controller } from '.';
 import { HttpResponse } from '../contracts/http';
 
 export type HttpRequest = {
-  id: number;
   action: string;
   issue: {
     number: number;
@@ -42,7 +41,6 @@ export class RegisterEventController
           id: request.repository.id,
           fullName: request.repository.fullName,
         },
-        externalId: request.id,
       });
 
       return {

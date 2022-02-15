@@ -70,9 +70,6 @@ export class Event {
 
   @Field(() => Sender)
   sender: Sender;
-
-  @Field()
-  externalId: number;
 }
 
 @ArgsType()
@@ -83,9 +80,6 @@ export class EventsArgs {
 
 @InputType()
 export class SaveEventInput {
-  @Field()
-  id: number;
-
   @Field()
   action: string;
 

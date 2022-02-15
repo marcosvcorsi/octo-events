@@ -39,7 +39,6 @@ describe('Issues Routes', () => {
             id: 1,
             login: 'any_login',
           },
-          externalId: 1 as any,
         },
       });
 
@@ -51,7 +50,6 @@ describe('Issues Routes', () => {
       expect(response.body).toEqual([
         {
           ...event,
-          externalId: Number(event.externalId),
           createdAt: event.createdAt.toISOString(),
           updatedAt: event.updatedAt?.toISOString(),
         },

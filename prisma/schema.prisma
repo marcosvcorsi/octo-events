@@ -19,7 +19,6 @@ model Event {
   issue      Json
   repository Json
   sender     Json
-  externalId BigInt    @unique @map("external_id")
 
   @@map("events")
 }

@@ -33,7 +33,6 @@ describe('PrismaEventRepository', () => {
         id: 1,
         login: 'any_login',
       },
-      externalId: 1,
     };
 
     fakePrismaClient = mockDeep();
@@ -49,9 +48,8 @@ describe('PrismaEventRepository', () => {
     let data: SaveEventData;
 
     beforeAll(() => {
-      fakePrismaClient.event.upsert.mockResolvedValue({
+      fakePrismaClient.event.create.mockResolvedValue({
         ...event,
-        externalId: 1 as any,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
@@ -72,36 +70,25 @@ describe('PrismaEventRepository', () => {
           id: 1,
           login: 'any_login',
         },
-        externalId: 1,
       };
     });
 
-    it('should call PrismaClient event upsert with correct values', async () => {
+    it('should call PrismaClient event create with correct values', async () => {
       await prismaEventRepository.save(data);
 
-      expect(fakePrismaClient.event.upsert).toHaveBeenCalledWith({
-        create: {
+      expect(fakePrismaClient.event.create).toHaveBeenCalledWith({
+        data: {
           action: data.action,
           issue: data.issue,
           repository: data.repository,
           sender: data.sender,
-          externalId: data.externalId,
-        },
-        update: {
-          action: data.action,
-          issue: data.issue,
-          repository: data.repository,
-          sender: data.sender,
-        },
-        where: {
-          externalId: data.externalId,
         },
       });
-      expect(fakePrismaClient.event.upsert).toHaveBeenCalledTimes(1);
+      expect(fakePrismaClient.event.create).toHaveBeenCalledTimes(1);
     });
 
-    it('should throw if PrismaClient event upsert throws', async () => {
-      fakePrismaClient.event.upsert.mockRejectedValueOnce(
+    it('should throw if PrismaClient event create throws', async () => {
+      fakePrismaClient.event.create.mockRejectedValueOnce(
         new Error('any_error'),
       );
 
@@ -126,7 +113,6 @@ describe('PrismaEventRepository', () => {
           ...event,
           createdAt: new Date(),
           updatedAt: new Date(),
-          externalId: 1 as any,
         },
       ]);
     });

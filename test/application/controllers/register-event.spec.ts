@@ -33,13 +33,11 @@ describe('RegisterEventController', () => {
         id: 1,
         login: 'any_login',
       },
-      id: 1,
     };
 
     event = {
       ...httpRequest,
       id: 'any_id',
-      externalId: 1,
     };
 
     registerEvent.execute.mockResolvedValue(event);
@@ -55,7 +53,6 @@ describe('RegisterEventController', () => {
       issue: httpRequest.issue,
       sender: httpRequest.sender,
       repository: httpRequest.repository,
-      externalId: httpRequest.id,
     });
     expect(registerEvent.execute).toHaveBeenCalledTimes(1);
   });
