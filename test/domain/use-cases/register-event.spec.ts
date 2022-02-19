@@ -60,6 +60,7 @@ describe('RegisterEvent', () => {
     await sut.execute(params);
 
     expect(sendMailNotification.send).toHaveBeenCalledWith({
+      to: 'marcos.corsi@hotmail.com',
       subject: 'New event',
       body: `New event: ${params.action} ${params.repository.fullName}#${params.issue.number}`,
     });

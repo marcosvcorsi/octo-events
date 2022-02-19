@@ -1,4 +1,5 @@
 export type SendMailNotificationParams = {
+  to: string;
   subject: string;
   body: string;
 };

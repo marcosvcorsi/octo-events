@@ -29,6 +29,7 @@ export class RegisterEvent {
     const event = await this.eventRepository.save(params);
 
     await this.sendMailNotification.send({
+      to: 'marcos.corsi@hotmail.com',
       subject: 'New event',
       body: `New event: ${event.action} ${event.repository.fullName}#${event.issue.number}`,
     });
