@@ -10,5 +10,8 @@ export const env = {
       pass: process.env.MAIL_PASS as string,
     },
   },
+  redis: {
+    url: process.env.REDIS_URL as string,
+  },
   port: process.env.PORT ?? 3000,
 };

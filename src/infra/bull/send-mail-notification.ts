@@ -4,6 +4,7 @@ import {
   SendMailNotification,
   SendMailNotificationParams,
 } from '@/domain/contracts/send-mail-notification';
+import { env } from '@/main/config/env';
 
 import { SendMail } from '../contracts/send-mail';
 
@@ -14,7 +15,7 @@ export class SendMailNotificationBull implements SendMailNotification {
     private readonly sendMail: SendMail,
     private readonly attempts = 3,
   ) {
-    this.sendMailQueue = new BullQueue('sendMailNotification');
+    this.sendMailQueue = new BullQueue('sendMailNotification', env.redis.url);
 
     this.sendMailQueue.process(this.process.bind(this));
   }
