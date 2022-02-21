@@ -27,12 +27,3 @@ The test consists in building 2 endpoints:
 
 Local
 $ sudo ngrok http 4000
-
-## Final Observations
-
--
--
-- Use any library / framework / gem you want, you don't have to do anything "from scratch"
-  Make tests, use your favorite framework for that
-  Create a README.md with instructions to run the project
-  Good luck and have fun :-)
