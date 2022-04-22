@@ -50,8 +50,25 @@ jobs:
       - name: Run integration tests
         run: npm run test:integration
         
+      - name: Set env BRANCH
+        run: echo "BRANCH=$(echo $GITHUB_REF | cut -d'/' -f 3)" >> $GITHUB_ENV
+
+      - name: Set env STAGE
+        run: |
+          if [[ $BRANCH == 'main' ]]; then
+              echo "APP_NAME=mvc-octo-events" >> "$GITHUB_ENV"
+          else
+              echo "APP_NAME=mvc-octo-events" >> "$GITHUB_ENV"
+          fi
+        
       - name: Install Heroku CLI
         run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login 
+ 
 
 #       - name: Deploy Heroku
 #         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
